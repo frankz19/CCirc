@@ -50,6 +50,15 @@ Run the compiler with a `.ccirc` source file:
 ./ccirc ../examples/rc_circuit.ccirc
 ```
 
+## Lexer doc
+Character Classification: It reads the plain text of your .ccirc files character by character and groups them into discrete, meaningful symbols (such as TYPE_TOKEN, NUMBER_TOKEN, or PLUS_TOKEN), much like grouping letters into words in a natural language.
+
+Automata Construction: Under the hood, the DeSiGNAR library parses your regular expressions and builds Nondeterministic Finite Automata (NFAs) using Thompson's construction, which are then converted into highly efficient Deterministic Finite Automata (DFAs) via the subset construction algorithm.
+
+Maximal Munch Rule: When analyzing the text, the lexer simulates all these DFAs in parallel using the "longest match" principle. It always selects the pattern that consumes the most consecutive characters. If a tie occurs (e.g., the string source matching both TYPE_TOKEN and IDENTIFIER_TOKEN equally well), the tie is broken in favor of whichever token type was registered first in your C++ code.
+
+Token Stream Purification: Before passing the data to the LL(1) parser, it filters out ignored character classes like whitespace and comments, ensuring the parser only receives syntactically significant tokens.
+
 ## Authors
 
 - Ramon Belandria
