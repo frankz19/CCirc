@@ -1,0 +1,15 @@
+// Basic RC charging circuit
+circuit MyRCCircuit {
+    source V1;
+    source V1.volt = 12;
+    source V1.wave = sine;
+    resistor R1 = (50 + 50) * 1 ohm;
+    capacitor C1 = 10 micro faraday;
+    switch S1 = true;
+
+    // Series connection forming a closed loop
+    V1.positivePole => S1.poleAlpha;
+    S1.poleBeta => R1.poleAlpha;
+    R1.poleBeta => C1.poleAlpha;
+    C1.poleBeta => V1.negativePole;
+}
